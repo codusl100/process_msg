@@ -1,12 +1,14 @@
 import openai
 import time
 
-def process_message(api_key, content):
+def process_message(api_key, content, name="quality manager",
+                    instructions="You are a quality manager. Classify types of faults and deduct possible causes.",
+                    require_content="를 문제를 표현하는 부분만 나타내도록 한국어로 최대한 간결하게 압축해줘."):
     client = openai.OpenAI(api_key=api_key)
 
     assistant = client.beta.assistants.create(
-        name="quality manager",
-        instructions="You are a quality manager. Classify types of faults and deduct possible causes.",
+        name=name,
+        instructions=instructions,
         tools=[{"type": "code_interpreter"}],
         model="gpt-4-1106-preview"
     )
@@ -16,7 +18,7 @@ def process_message(api_key, content):
     message = client.beta.threads.messages.create(
         thread_id=thread.id,
         role="user",
-        content=f"'{content}'를 문제를 표현하는 부분만 나타내도록 한국어로 최대한 간결하게 압축해줘."
+        content=content+require_content
     )
 
     run = client.beta.threads.runs.create(
