@@ -23,7 +23,8 @@ def process_message(api_key, content, name="quality manager",
 
 ### 3. 패키지 사용 예시
 ```python
-import process-msg
+from process_msg import process_msg
 
-process_msg("open ai key", "틸트호스 크랙으로 오일누유 발생")
+print(process_msg.process_message("open ai key",
+            "틸트호스 크랙으로 오일누유 발생"))
 ```
